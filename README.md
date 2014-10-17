@@ -1,4 +1,1 @@
-codeeval
-========
-
-My codeeval solutions.
+Various programming exercises I've completed.
