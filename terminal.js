@@ -19,7 +19,7 @@ var Terminal = function(width, height){
 
 Terminal.prototype = {
 	parse: function( str ) {
-
+		var commands = str.match(/(\^(c|h|b|d|u|l|r|e|i|o|\^|\d{2})|[A-za-z0-9\_\.\=\+\-])/g);
 	}
 	execute: function( command ) {
 
@@ -75,7 +75,7 @@ Terminal.prototype = {
 			output.push(this.screen[row].join(''));
 		}
 
-		return output.join('\n')
+		return output.join('\n');
 	},
 	setValue: function(value)
 	{
