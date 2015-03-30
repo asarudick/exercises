@@ -1,26 +1,51 @@
 var fs = require( 'fs' );
 var output = [];
 
+var findTotalHouseDistance = function(house, locations)
+{
+	'use strict';
+
+	var rightHouse = Math.ceil(house);
+	var leftHouse = Math.floor(house);
+
+	var rightHouseTotalDistance = locations.reduce( function(a,b) { return a + Math.abs(rightHouse-b);}, 0);
+	var leftHouseTotalDistance = locations.reduce( function(a,b) { return a + Math.abs(leftHouse-b);}, 0);
+
+	return (rightHouseTotalDistance < leftHouseTotalDistance ) ? rightHouseTotalDistance : leftHouseTotalDistance;
+
+}
+
 fs.readFileSync( process.argv[ 2 ] )
 	.toString()
 	.split( '\n' )
 	.forEach( function ( line ) {
+
+		'use strict';
+
 		if ( line === '' ) return;
 
-		locations = [0];
+		var args = [];
 
-		locations = locations
-						.concat(line.match(/[\d]+/g))
-						.map(function(a){ return parseInt(a,10); })
-						.sort(function(a,b){ return a<b ? -1 : (a>b ? 1 : 0)  });
+		// Parse arguments.
+		args = args
+				.concat(line.match(/[\d]+/g))
+				.map( function(a) { return parseInt(a,10); } );
 
-		var distances = [];
+		// First arg is the number of friends.
+		var numOfFriends = args[0];
 
-		for (var i = 0; i < locations.length-1; i++) {
-			distances.push(parseInt(locations[i+1],10) - parseInt(locations[i],10))
-		}
+		// The rest are the locations.
+		var locations = args;
 
-		output.push( distances.join(',') );
+		// Remove first element. It's the number of friends.
+		locations.shift();
+
+		// Sum and average to get the midpoint.
+		var midpoint = locations.reduce( function(a,b){ return a + b; }, 0) / numOfFriends;
+
+
+		output.push( findTotalHouseDistance(midpoint, locations) );
+
 	} );
 
 console.log( output.join( '\n' ) );
