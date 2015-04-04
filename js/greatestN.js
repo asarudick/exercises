@@ -17,7 +17,7 @@ fs.readFileSync( process.argv[ 2 ] )
 	.forEach( function ( line ) {
 		'use strict';
 		if ( line === '' ) return;
-		var max = 0;
+		
 		output.push( greatestN.apply(null, line.split(',').map(function(a){return parseInt(a,10);}) ) );
 	} );
 
