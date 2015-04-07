@@ -15,7 +15,7 @@ for line in test_cases:
 
 		fin = False
 
-		for col in xrange(len(matrix)):
+		for col in range(len(matrix)):
 			row = matrix[col]
 			if '.Y' in row and not 'XY' in row:
 				matrix[col] = row.replace('.Y', 'Y')
@@ -25,7 +25,7 @@ for line in test_cases:
 
 		if fin:
 			break
-		
+
 		replacements += 1
 
 	print(replacements)
