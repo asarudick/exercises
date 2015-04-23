@@ -62,10 +62,9 @@ var Terminal = function ( width, height ) {
 Terminal.prototype = {
 	parse: function ( str ) {
 		var commands = str.match(
-			/(\^(c|h|b|d|u|l|r|e|i|o|\^|\d{2})|[A-za-z0-9\_\.\=\+\-])/g );
+			/(\^(c|h|b|d|u|l|r|e|i|o|\^|\d{2})|.{1})/g );
 
 		for ( var i = 0; i < commands.length; i++ ) {
-			console.log('Executing: ' + commands[i]);
 			this.execute(commands[i]);
 		}
 
@@ -81,7 +80,9 @@ Terminal.prototype = {
 			this.commands[ command ].call(this);
 
 		else
+		{
 			this.setValue( command );
+		}
 	},
 	clear: function () {
 		for ( var row = 0; row < this.height; row++ ) {
@@ -102,19 +103,19 @@ Terminal.prototype = {
 		this.cursor.col = 0;
 	},
 	moveCursorDown: function () {
-		if ( this.cursor.row >= this.height - 1 )
+		if ( this.cursor.row < this.height - 1 )
 			this.cursor.row++;
 	},
 	moveCursorUp: function () {
-		if ( this.cursor.row <= 0 )
+		if ( this.cursor.row > 0 )
 			this.cursor.row--;
 	},
 	moveCursorLeft: function () {
-		if ( this.cursor.col <= 0 )
+		if ( this.cursor.col > 0 )
 			this.cursor.col--;
 	},
 	moveCursorRight: function () {
-		if ( this.cursor.col >= this.width - 1 )
+		if ( this.cursor.col < this.width - 1 )
 			this.cursor.col++;
 	},
 	eraseRight: function () {
@@ -136,11 +137,12 @@ Terminal.prototype = {
 	},
 	setValue: function ( value ) {
 		if ( this.mode === this.modes.overwrite )
-			this.screen[ this.cursor.row ][ this.cursor.column ] = value;
+			this.screen[ this.cursor.row ][ this.cursor.col ] = value;
 		else {
-			this.screen[ this.cursor.row ].splice( this.cursor.column, 0, value );
+			this.screen[ this.cursor.row ].splice( this.cursor.col, 0, value );
 			this.screen[ this.cursor.row ].pop();
 		}
+		this.moveCursorRight();
 	}
 
 }
