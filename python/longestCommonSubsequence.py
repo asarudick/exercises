@@ -24,7 +24,6 @@ def longestCommonSubsequence(first, second):
 		elif memo[i][j] == memo[i][j-1]:
 			j -= 1
 		else:
-			assert first[i-1] == second[j-1]
 			result = first[i-1] + result
 			i -= 1
 			j -= 1
