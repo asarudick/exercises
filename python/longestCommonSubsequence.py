@@ -42,3 +42,5 @@ for line in lines:
 		continue
 
 	print(longestCommonSubsequence(*line.split(';')).rstrip())
+
+lines.close()
