@@ -58,8 +58,6 @@ List.prototype.remove =  function(needle){
 	if( this.root.data === needle )
 	{
 		this.root = this.root.next;
-		this.remove(needle);
-		return;
 	}
 	
 	// Tail/Middle case.
@@ -86,6 +84,6 @@ list.append(1);
 list.append(2);
 list.append(3);
 
-list.remove(2);
+list.remove(1);
 
 list.print();
