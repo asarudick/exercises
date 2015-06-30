@@ -6,7 +6,6 @@ function Node(data, next)
 {
 	this.next = next;
 	this.data = data;
-	// this.position = 0;
 }
 
 function List()
@@ -31,7 +30,7 @@ List.prototype.append = function(data){
 	{
 		node = node.next;
 	}
-	// newNode.position = node.position+1;
+	
 	node.next = newNode;
 	this.size++;
 };
@@ -39,12 +38,10 @@ List.prototype.append = function(data){
 List.prototype.print = function()
 {
 	var node = this.root;
-	var count = 0;
 	while(node !== null)
 	{
 		console.log( node.data );
 		node = node.next;
-		count++;
 	}
 	
 	console.log('END OF LIST');
@@ -60,6 +57,7 @@ List.prototype.remove =  function(needle){
 	if( this.root.data === needle )
 	{
 		this.root = this.root.next;
+		this.size--;
 		this.remove(needle);
 		return;
 	}
@@ -84,6 +82,7 @@ List.prototype.remove =  function(needle){
 			// Orphan the matching node, and don't advance, since we have a new
 			// next node to evaluate, but do restart loop.
 			current.next = current.next.next;
+			this.size--;
 			continue;
 		}
 		
@@ -100,7 +99,10 @@ List.prototype.remove =  function(needle){
 		
 	// Remove the last node if it matches.
 	if( previous.next !== null && previous.next.data === needle )
+	{
 		previous.next = null;
+		this.size--;
+	}
 	
 }
 
