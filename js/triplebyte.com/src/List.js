@@ -14,6 +14,8 @@
 		// Sentinels never have data themselves. They only serve to make list
 		// operations easier. They'll always point to the head, if there is a head.
 		this.sentinel = new Node(null, null);
+
+		this.tail = null;
 	}
 	List.prototype = {
 		append: function(){
@@ -21,14 +23,18 @@
 			var values = Array.prototype.slice.call(arguments);
 
 			for (var i = 0; i < values.length; i++) {
-				var node = this.sentinel;
 
-				while( node.next !== null )
+				if( this.tail === null )
 				{
-					node = node.next;
+					var node = new Node(values[i], null);
+					this.sentinel.next = node;
+					this.tail = this.sentinel.next;
+					this.size++;
+					continue;
 				}
 
-				node.next = new Node(values[i], null);
+				this.tail.next = new Node(values[i], null);
+				this.tail = this.tail.next;
 				this.size++;
 			}
 		},
@@ -65,17 +71,28 @@
 			}
 
 			node.next = new Node(data, node.next);
+			this.size++;
 		},
 		insertAfter: function(data, i){
 			var node = this.sentinel;
 			var index = -1;
+
 			while( node.next !== null && i !== index)
 			{
 				index++;
 				node = node.next;
 			}
 
-			node.next = new Node(data, node.next);
+			var newNode = new Node(data, node.next);
+
+			node.next = newNode;
+
+			if( node === this.tail )
+			{
+				this.tail = newNode;
+			}
+
+			this.size++;
 		},
 
 		replace: function(search, value){
@@ -249,6 +266,7 @@
 			// Remove the last node if it matches.
 			if( previous.next !== null && i === index )
 			{
+				this.tail = previous;
 				previous.next = null;
 				this.size--;
 			}
@@ -276,6 +294,7 @@
 			// Remove the last node if it matches.
 			if( previous.next !== null && previous.next.data === search )
 			{
+				this.tail = previous;
 				previous.next = null;
 				this.size--;
 			}
