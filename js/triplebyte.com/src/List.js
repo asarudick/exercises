@@ -151,10 +151,10 @@
 				node = node.next;
 			}
 
-			return index;
+			return -1;
 		},
 		lastIndexOf: function(search){
-			var index = -1;
+			var index = 0;
 			var lastIndex = -1;
 
 			var node = this.sentinel.next;
@@ -174,7 +174,7 @@
 
 		// Analog of the Array.prototype.reduce function.
 		reduce: function(cb, initialValue){
-			var result = initialValue;
+			var result = initialValue || null;
 			var node = this.sentinel.next;
 
 			while (node !== null)
@@ -222,6 +222,8 @@
 
 		removeAtIndex: function(i)
 		{
+			if( i < 0 || i >= this.size ) return;
+
 			var index = -1;
 			var previous = this.sentinel;
 			var current = this.sentinel;
@@ -245,7 +247,7 @@
 			}
 
 			// Remove the last node if it matches.
-			if( previous.next !== null && i === index+1 )
+			if( previous.next !== null && i === index )
 			{
 				previous.next = null;
 				this.size--;

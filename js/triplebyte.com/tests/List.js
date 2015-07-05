@@ -269,11 +269,224 @@ describe('List', function(){
 			assert.equal(true, list.toArray().equals([1,2,3]));
 		})
 	});
-	// describe('#indexOf()', function(){
-	// 	list = new List();
-	// 	it('should return -1 when the value is not present', function(){
-	// 		assert.equal(-1, [1,2,3].indexOf(5));
-	// 		assert.equal(-1, [1,2,3].indexOf(0));
-	// 	})
-	// })
+	describe('#replaceFirst(2, 5)', function(){
+		it('should replace the first instance of 2', function(){
+			list = new List();
+			list.append(1,2,3,2);
+			list.replaceFirst(2,5);
+			assert.equal(true, list.toArray().equals([1,5,3,2]));
+		})
+	});
+	describe('#replaceFirst(1, 5)', function(){
+		it('should replace the first instance of 1(head)', function(){
+			list = new List();
+			list.append(1,2,3,2);
+			list.replaceFirst(1,5);
+			assert.equal(true, list.toArray().equals([5,2,3,2]));
+		})
+	});
+	describe('#replaceFirst(3, 5)', function(){
+		it('should replace the first instance of 3(tail)', function(){
+			list = new List();
+			list.append(1,2,3);
+			list.replaceFirst(3,5);
+			assert.equal(true, list.toArray().equals([1,2,5]));
+		})
+	});
+	describe('#replaceFirst(0, 5)', function(){
+		it('should replace nothing.', function(){
+			list = new List();
+			list.append(1,2,3);
+			list.replaceFirst(0,5);
+			assert.equal(true, list.toArray().equals([1,2,3]));
+		})
+	});
+	describe('#replaceLast(2, 5)', function(){
+		it('should replace the first instance of 2', function(){
+			list = new List();
+			list.append(1,2,3,2);
+			list.replaceLast(2,5);
+			assert.equal(true, list.toArray().equals([1,2,3,5]));
+		})
+	});
+	describe('#replaceLast(1, 5)', function(){
+		it('should replace the first instance of 1(head)', function(){
+			list = new List();
+			list.append(1,2,3,2);
+			list.replaceLast(1,5);
+			assert.equal(true, list.toArray().equals([5,2,3,2]));
+		})
+	});
+	describe('#replaceLast(3, 5)', function(){
+		it('should replace the first instance of 3(tail)', function(){
+			list = new List();
+			list.append(1,2,3);
+			list.replaceLast(3,5);
+			assert.equal(true, list.toArray().equals([1,2,5]));
+		})
+	});
+	describe('#replaceLast(0, 5)', function(){
+		it('should replace nothing.', function(){
+			list = new List();
+			list.append(1,2,3);
+			list.replaceLast(0,5);
+			assert.equal(true, list.toArray().equals([1,2,3]));
+		})
+	});
+	describe('#indexOf(1)', function(){
+		it('should return 0', function(){
+			list = new List();
+			list.append(1,2,3);
+			assert.equal(0, list.indexOf(1));
+		})
+	});
+	describe('#indexOf(2)', function(){
+		it('should return 1', function(){
+			list = new List();
+			list.append(1,2,3);
+			assert.equal(1, list.indexOf(2));
+		})
+	});
+	describe('#indexOf(3)', function(){
+		it('should return 2', function(){
+			list = new List();
+			list.append(1,2,3);
+			assert.equal(2, list.indexOf(3));
+		})
+	});
+	describe('#indexOf(4)', function(){
+		it('should return -1', function(){
+			list = new List();
+			list.append(1,2,3);
+			assert.equal(-1, list.indexOf(4));
+		})
+	});
+	describe('#indexOf(1)', function(){
+		it('should return 0', function(){
+			list = new List();
+			list.append(1,2,3,1);
+			assert.equal(0, list.indexOf(1));
+		})
+	});
+	describe('#lastIndexOf(1)', function(){
+		it('should return 0', function(){
+			list = new List();
+			list.append(1,2,3);
+			assert.equal(0, list.lastIndexOf(1));
+		})
+	});
+	describe('#lastIndexOf(2)', function(){
+		it('should return 1', function(){
+			list = new List();
+			list.append(1,2,3);
+			assert.equal(1, list.lastIndexOf(2));
+		})
+	});
+	describe('#lastIndexOf(3)', function(){
+		it('should return 2', function(){
+			list = new List();
+			list.append(1,2,3);
+			assert.equal(2, list.lastIndexOf(3));
+		})
+	});
+	describe('#lastIndexOf(4)', function(){
+		it('should return -1', function(){
+			list = new List();
+			list.append(1,2,3);
+			assert.equal(-1, list.lastIndexOf(4));
+		})
+	});
+	describe('#lastIndexOf(1)', function(){
+		it('should return 3', function(){
+			list = new List();
+			list.append(1,2,3,1);
+			assert.equal(3, list.lastIndexOf(1));
+		})
+	});
+	describe('#reduce(+)', function(){
+		it('should return 6', function(){
+			list = new List();
+			list.append(1,2,3);
+			assert.equal(6, list.reduce(function(a,b){
+				return a + b;
+			}));
+		})
+	});
+	describe('#map(+1)', function(){
+		it('should return [2,3,4]', function(){
+			list = new List();
+			list.append(1,2,3);
+			list.map(function(a){
+				return a + 1;
+			});
+			assert.equal(true, list.toArray().equals([2,3,4]));
+		})
+	});
+	describe('#filter(<3)', function(){
+		it('should return [1,2]', function(){
+			list = new List();
+			list.append(1,2,3);
+			var filtered = list.filter(function(a){
+				return a < 3;
+			});
+			assert.equal(true, filtered.toArray().equals([1,2]));
+		})
+	});
+	describe('#removeAtIndex(0)', function(){
+		it('should return [2,3]', function(){
+			list = new List();
+			list.append(1,2,3);
+			list.removeAtIndex(0);
+			assert.equal(true, list.toArray().equals([2,3]));
+		})
+	});
+	describe('#removeAtIndex(1)', function(){
+		it('should return [1,3]', function(){
+			list = new List();
+			list.append(1,2,3);
+			list.removeAtIndex(1);
+			assert.equal(true, list.toArray().equals([1,3]));
+		})
+	});
+	describe('#removeAtIndex(2)', function(){
+		it('should return [1,2]', function(){
+			list = new List();
+			list.append(1,2,3);
+			list.removeAtIndex(2);
+			assert.equal(true, list.toArray().equals([1,2]));
+		})
+	});
+	describe('#removeAtIndex(-1)', function(){
+		it('should return [1,2,3]', function(){
+			list = new List();
+			list.append(1,2,3);
+			list.removeAtIndex(-1);
+			assert.equal(true, list.toArray().equals([1,2,3]));
+		})
+	});
+	describe('#removeAtIndex(3)', function(){
+		it('should return [1,2,3]', function(){
+			list = new List();
+			list.append(1,2,3);
+			list.removeAtIndex(3);
+			assert.equal(true, list.toArray().equals([1,2,3]));
+		})
+	});
+	describe('#removeAll(3)', function(){
+		it('should return [1,2]', function(){
+			list = new List();
+			list.append(3,3,1,3,3,2,3,3);
+			list.removeAll(3);
+			assert.equal(true, list.toArray().equals([1,2]));
+		})
+	});
+	describe('#removeAll(0)', function(){
+		it('should return [3,3,1,3,3,2,3,3]', function(){
+			list = new List();
+			list.append(3,3,1,3,3,2,3,3);
+			list.removeAll(0);
+			assert.equal(true, list.toArray().equals([3,3,1,3,3,2,3,3]));
+		})
+	});
+
 })
