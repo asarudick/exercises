@@ -3,8 +3,8 @@ var mocha = require('gulp-mocha');
 
 gulp.task('test', function () {
 	var src = 'tests/';
-	
-	return gulp.src(src + 'test.js', { read: false })
+
+	return gulp.src(src + 'List.js', { read: false })
 		.pipe(mocha({ reporter: 'nyan' } ));
 
 });
