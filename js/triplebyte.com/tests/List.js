@@ -374,5 +374,44 @@ describe('List', function(){
 			assert.equal(true, list.toArray().equals([3,3,1,3,3,2,3,3]));
 		})
 	});
+	describe('#reverse()', function(){
+		it('should return [1]', function(){
+			list = new List();
+			list.append(1);
+			list.reverse();
+			assert.equal(true, list.toArray().equals([1]));
+		})
+	});
+	describe('#reverse()', function(){
+		it('should return [2,1]', function(){
+			list = new List();
+			list.append(1,2);
+			list.reverse();
+			assert.equal(true, list.toArray().equals([2,1]));
+		})
+	});
+	describe('#reverse()', function(){
+		it('should return [3,2,1]', function(){
+			list = new List();
+			list.append(1,2,3);
+			list.reverse();
+			assert.equal(true, list.toArray().equals([3,2,1]));
+		})
+	});
+	describe('#reverse()', function(){
+		it('should return [5,4,3,2,1]', function(){
+			list = new List();
+			list.append(1,2,3,4,5);
+			list.reverse();
+			assert.equal(true, list.toArray().equals([5,4,3,2,1]));
+		})
+	});
+	describe('#reverse()', function(){
+		it('should return []', function(){
+			list = new List();
+			list.reverse();
+			assert.equal(true, list.toArray().equals([]));
+		})
+	});
 
 })

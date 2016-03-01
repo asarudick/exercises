@@ -298,6 +298,39 @@
 				previous.next = null;
 				this.size--;
 			}
+		},
+
+		reverse: function() {
+
+			// Empty list case.
+			if (this.sentinel.next === null)
+			{
+				return;
+			}
+
+			// Will need this reference later.
+			var last = this.sentinel.next;
+
+			// current visits the second node all the way to the null reference after the end
+			var current = this.sentinel.next.next;
+
+			// previous is always one behind
+			var previous = this.sentinel.next;
+
+			while( current !== null )
+			{
+				var tmp = current.next;
+				current.next = previous;
+				previous = current;
+				current = tmp;
+			}
+
+			// Cleanup.
+			this.sentinel.next = previous;
+
+			// Eliminate the cycle.
+			last.next = null;
+
 		}
 
 	}
