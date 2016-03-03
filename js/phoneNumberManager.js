@@ -1,3 +1,4 @@
+'use strict';
 // Exercise: Write a method to allocate a unique, unused number to a person, another to check the status of a phone number, and another to release a number.
 
 /**
