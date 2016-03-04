@@ -331,6 +331,38 @@
 			// Eliminate the cycle.
 			last.next = null;
 
+			// Update tail.
+			this.tail = last;
+
+		},
+		recurseReverse: function () {
+
+			if (!this.sentinel.next)
+			{
+				return;
+			}
+
+			// Reverse, and get new tail.
+			var newTail = this._recurseReverseHelper(this.sentinel.next);
+
+			// Swap sentinel's next node and tail.
+			var oldTail = this.tail;
+			this.sentinel.next = oldTail;
+			this.tail = newTail;
+		},
+		_recurseReverseHelper: function (node) {
+			// Tail case.
+			if (node.next === null)
+			{
+				return node;
+			}
+
+			var next = this._recurseReverseHelper(node.next);
+
+			next.next = node;
+			node.next = null;
+
+			return node;
 		}
 
 	}
