@@ -1,0 +1,24 @@
+{
+  "name": "exercises",
+  "version": "1.0.0",
+  "description": "Programming exercises.",
+  "main": "",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shabonkerz/exercises.git"
+  },
+  "author": "Asa Rudick",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Shabonkerz/exercises/issues"
+  },
+  "homepage": "https://github.com/Shabonkerz/exercises#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-mocha": "^2.1.2",
+    "mocha": "^2.2.5"
+  }
+}
