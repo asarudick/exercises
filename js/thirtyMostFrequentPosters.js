@@ -43,6 +43,7 @@
 		// a must be equal to b
 		return 0;
 	}
+
 	function NinetyDaysAgo () {
 		return new Date() - (24*60*60*1000*90);
 	}
@@ -60,9 +61,9 @@
 		// Time to count the # of posts per user.
 		let users = {};
 
-		// Iterate over posts within last 30 days.
-		for (let i = 0, length = latestPosts.length; i < length; i++) {
-			let currentUserId = latestPosts[i].user.id;
+		// Would use lodash here. forEach() is incredibly slow.
+		latestPosts.forEach((post) => {
+			let currentUserId = post.user.id;
 
 			// If it doesn't exist, put something in there.
 			if (users[currentUserId] === undefined) {
@@ -74,20 +75,17 @@
 
 			// Increment and update latest post title.
 			users[currentUserId].num_of_posts++;
-			users[currentUserId].name = latestPosts[i].user.name;
-			users[currentUserId].last_post_title = latestPosts[i].title;
-		}
-
+			users[currentUserId].name = post.user.name;
+			users[currentUserId].last_post_title = post.title;
+		});
 
 		let result = [];
-
-		// Flatten to array.
-		let keys = Object.keys(users);
-		for (let i = 0; i < keys.length; i++) {
+		
+		for (var user in users) {
 			result.push({
-				name: users[keys[i]].name,
-				last_post_title: users[keys[i]].last_post_title,
-				num_of_posts: users[keys[i]].num_of_posts
+				name: users[user].name,
+				last_post_title: users[user].last_post_title,
+				num_of_posts: users[user].num_of_posts
 			});
 		}
 
