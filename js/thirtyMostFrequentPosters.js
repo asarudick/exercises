@@ -19,28 +19,22 @@
 	'use strict';
 
 	function sortByLastTime(a, b) {
-		// a is less than b by some ordering criterion
 		if (a.time < b.time) {
 			return -1;
 		}
-		// a is greater than b by the ordering criterion
 		if (a.time > b.time) {
 			return 1;
 		}
-		// a must be equal to b
 		return 0;
 	}
 
 	function sortByMostFrequent(a, b) {
-		// a is less than b by some ordering criterion
 		if (a.num_of_posts > b.num_of_posts) {
 			return -1;
 		}
-		// a is greater than b by the ordering criterion
 		if (a.num_of_posts < b.num_of_posts) {
 			return 1;
 		}
-		// a must be equal to b
 		return 0;
 	}
 
@@ -80,7 +74,7 @@
 		});
 
 		let result = [];
-		
+
 		for (var user in users) {
 			result.push({
 				name: users[user].name,
