@@ -1,21 +1,30 @@
-import assert from 'assert';
-import missingInteger from '../missingInteger';
+export default function minimumInteger (A) {
 
+    A.sort(function (a, b) {
+        return a - b;
+    });
 
-describe('missingInteger', () => {
-	it('should return 1 on empty arrays', () => {
-		const arr = [];
-        const result = missingInteger(arr);
-		assert.equal(result, 1);
-	});
-	it('should return 2 element on [ 1 ]', () => {
-		const arr = [ 1 ];
-        const result = missingInteger(arr);
-		assert.equal(result, 2);
-	});
-	it('should return 3 on [ 1, 2 ]', () => {
-		const arr = [ 1, 2 ];
-        const result = missingInteger(arr);
-		assert.equal(result, 3);
-	});
-});
+    var minimum = 1;
+
+    for (var i = 0, length = A.length; i < length; i++) {
+
+        // Ignore negative numbers.
+        if ( A[i] < minimum )
+        {
+            continue;
+        }
+
+        if ( A[i] === minimum )
+        {
+            ++minimum;
+            continue;
+        }
+
+        if ( A[i] > minimum )
+        {
+            return minimum;
+        }
+    }
+
+    return minimum;
+}
