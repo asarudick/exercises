@@ -35,6 +35,88 @@ export class Maze {
         // Really should throw error here.
     }
 
+    findShortestPath () {
+        if (!this.width || !this.height)
+        {
+            return [];
+        }
+
+        const queue = [];
+        const visited = {};
+        const predecessor = {};
+        let exit = [ -1, -1 ];
+        const toKey = (a, b) => a.toString() + ',' + b.toString();
+
+        visited[ toKey(this.start[0], this.start[1]) ] = true;
+        predecessor[ toKey(this.start[0], this.start[1]) ] = [ -1, -1 ];
+
+        queue.push(this.start);
+
+        while (queue.length)
+        {
+            const [ x, y ] = queue.shift();
+
+            if (this.cells[x][y] === mazeCellType.obstruction)
+            {
+                continue;
+            }
+            
+            if (this.cells[x][y] === mazeCellType.exit)
+            {
+                exit = [ x, y ];
+                break;
+            }
+
+            if ( x - 1 >= 0
+                && !visited[ toKey(x - 1, y) ])
+            {
+                visited[ toKey(x - 1, y) ] = true;
+                predecessor[ toKey(x - 1, y) ] = [ x, y ];
+                queue.push([ x - 1, y ]);
+            }
+
+            if ( y - 1 >= 0
+                && !visited[ toKey(x, y - 1) ])
+            {
+                visited[ toKey(x, y - 1) ] = true;
+                predecessor[ toKey(x, y - 1) ] = [ x, y ];
+                queue.push([ x, y - 1 ]);
+            }
+
+            if ( x + 1 < this.width
+                && !visited[ toKey(x + 1, y) ])
+            {
+                visited[ toKey(x + 1, y) ] = true;
+                predecessor[ toKey(x + 1, y) ] = [ x, y ];
+                queue.push([ x + 1, y ]);
+            }
+
+            if ( y + 1 < this.height
+                && !visited[ toKey(x, y + 1) ])
+            {
+                visited[ toKey(x, y + 1) ] = true;
+                predecessor[ toKey(x, y + 1) ] = [ x, y ];
+                queue.push([ x, y + 1 ]);
+            }
+
+        }
+
+        const path = [];
+
+        {
+            let cell = Array.prototype.slice.call(exit);
+
+            while (cell[0] !== -1 && cell[1] !== -1)
+            {
+                path.push(cell);
+                cell = predecessor[ toKey(cell[0], cell[1]) ];
+            }
+        }
+
+        return path.reverse();
+
+    }
+
     findPath ()
     {
         if (!this.width || !this.height)

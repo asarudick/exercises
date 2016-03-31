@@ -9,7 +9,7 @@ import chai from 'chai';
 const expect = chai.expect;
 
 describe('Maze', () => {
-    describe('findPath', () => {
+    describe('constructor', () => {
         it('should throw MazeError if maze is empty', () => {
             expect(() => {
                 const maze = new Maze([], null);
@@ -20,6 +20,45 @@ describe('Maze', () => {
                 const maze = new Maze([ cellType.clear ], null);
             }).to.throw(MazeError);
         });
+    });
+    describe('findShortestPath', () => {
+        it('should return empty path if maze has no exit', () => {
+            const maze = new Maze([
+                [ cellType.clear ]
+            ], [ 0, 0 ]);
+            const result = maze.findShortestPath();
+            assert.deepEqual(result, []);
+        });
+        it('should return (0,0) (0,1) (1,1) in this 2x2 maze', () => {
+            const maze = new Maze([ [
+                cellType.clear,
+                cellType.clear
+            ], [
+                cellType.obstruction,
+                cellType.exit
+            ] ], [ 0, 0 ]);
+            const result = maze.findShortestPath();
+            assert.deepEqual(result, [ [ 0, 0 ], [ 0, 1 ], [ 1, 1 ] ]);
+        });
+        it('should return (0,0, 1,0, 2,0, 2,1, 2,2) in this 3x3 maze', () => {
+            const maze = new Maze([ [
+                cellType.clear,
+                cellType.clear,
+                cellType.clear
+            ], [
+                cellType.clear,
+                cellType.clear,
+                cellType.clear
+            ], [
+                cellType.clear,
+                cellType.clear,
+                cellType.exit
+            ] ], [ 0, 0 ]);
+            const result = maze.findShortestPath();
+            assert.deepEqual(result, [ [ 0, 0 ], [ 1, 0 ], [ 2, 0 ], [ 2, 1 ], [ 2, 2 ] ]);
+        });
+    });
+    describe('findPath', () => {
         it('should return empty path if maze has no exit', () => {
             const maze = new Maze([
                 [ cellType.clear ]
@@ -83,7 +122,7 @@ describe('Maze', () => {
             ] ], [ 0, 0 ]);
             const result = maze.findPath();
 
-            // Not the shortest path. For that we need the power of graph theory and Djikstra/Bellman-Ford.
+            // Not the shortest path. For that we need the power of BFS.
             assert.deepEqual(result, [ [ 0, 0 ], [ 1, 0 ], [ 2, 0 ], [ 2, 1 ], [ 1, 1 ], [ 0, 1 ], [ 0, 2 ], [ 1, 2 ], [ 2, 2 ] ]);
         });
     });
