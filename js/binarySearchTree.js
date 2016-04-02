@@ -92,6 +92,7 @@ export class BinarySearchTree {
 
         return true;
     }
+    
     /**
      * Traverses a binary tree in-order, and invokes a callback on each each node during traversal.
      * @param  {Node}   root   The root node of the tree to traverse.
@@ -140,6 +141,7 @@ export class BinarySearchTree {
 
         recurse(this.root);
     }
+
     /**
      * Traverses a binary tree in pre-order, and invokes a callback on each each node during traversal.
      * @param  {Node}   root   The root node of the tree to traverse.

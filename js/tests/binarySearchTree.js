@@ -7,6 +7,7 @@ import _ from 'lodash';
 
 
 describe('BinarySearchTree', () => {
+
     describe('getClosestNode', () => {
         it('should return 1 for tree with root(5), left(1), right(9), and value is 2', () => {
             const tree = new BinarySearchTree(new Node(5));
@@ -36,6 +37,7 @@ describe('BinarySearchTree', () => {
             assert.equal(node.data, 3);
         });
     });
+
     describe('toDoublyLinkedList', () => {
         it('should return null', () => {
             const tree = new BinarySearchTree(null);
@@ -86,6 +88,7 @@ describe('BinarySearchTree', () => {
             assert.equal(node.right, null);
         });
     });
+
     describe('isValidSort', () => {
         it('should find an empty tree as valid', () => {
             const tree = new BinarySearchTree(null);
@@ -143,6 +146,7 @@ describe('BinarySearchTree', () => {
             assert.equal(tree.isValidSort(), false);
         });
     });
+
     describe('isValid', () => {
         it('should find an empty tree as valid', () => {
             const tree = new BinarySearchTree(null);
@@ -338,7 +342,6 @@ describe('BinarySearchTree', () => {
 			assert.deepEqual(result, [ 5, 3, 1, 4, 7, 6, 9 ]);
 		});
 	});
-
 
 	describe('preOrderRecursive', () => {
 		it('should not do anything if root is null', () => {
