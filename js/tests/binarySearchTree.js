@@ -56,6 +56,63 @@ describe('BinarySearchTree', () => {
             assert.equal(node.right, null);
         });
     });
+    describe('isValidSort', () => {
+        it('should find an empty tree as valid', () => {
+            const tree = new BinarySearchTree(null);
+            assert.equal(BinarySearchTree.isValidSort(tree.root), true);
+        });
+        it('should find an tree with only a root as valid', () => {
+            const tree = new BinarySearchTree(new Node(1));
+            assert.equal(BinarySearchTree.isValidSort(tree.root), true);
+        });
+        it('should find an tree with only a root(2), and left child(1) as valid', () => {
+            const tree = new BinarySearchTree(new Node(2));
+            tree.root.left = new Node(1);
+            assert.equal(BinarySearchTree.isValidSort(tree.root), true);
+        });
+        it('should find an tree with only a root(2), left child(1), and right child(3) as valid', () => {
+            const tree = new BinarySearchTree(new Node(2));
+            tree.root.left = new Node(1);
+            tree.root.right = new Node(3);
+            assert.equal(BinarySearchTree.isValidSort(tree.root), true);
+        });
+        it('should find an tree with a root(5), left child(3), and right child(7) as valid', () => {
+            const tree = new BinarySearchTree(new Node(5));
+            tree.root.left = new Node(3);
+            tree.root.right = new Node(7);
+
+            tree.root.left.left = new Node(1);
+            tree.root.left.right = new Node(4);
+
+            tree.root.right.left = new Node(6);
+            tree.root.right.right = new Node(8);
+            assert.equal(BinarySearchTree.isValidSort(tree.root), true);
+        });
+        it('should find an tree with a root(5), left child(3), and right child(7) as invalid', () => {
+            const tree = new BinarySearchTree(new Node(5));
+            tree.root.left = new Node(3);
+            tree.root.right = new Node(7);
+
+            tree.root.left.left = new Node(1);
+            tree.root.left.right = new Node(5);
+
+            tree.root.right.left = new Node(6);
+            tree.root.right.right = new Node(8);
+            assert.equal(BinarySearchTree.isValidSort(tree.root), false);
+        });
+        it('should find an tree with a root(5), left child(3), and right child(7) as invalid', () => {
+            const tree = new BinarySearchTree(new Node(5));
+            tree.root.left = new Node(3);
+            tree.root.right = new Node(7);
+
+            tree.root.left.left = new Node(1);
+            tree.root.left.right = new Node(4);
+
+            tree.root.right.left = new Node(2);
+            tree.root.right.right = new Node(8);
+            assert.equal(BinarySearchTree.isValidSort(tree.root), false);
+        });
+    });
     describe('isValid', () => {
         it('should find an empty tree as valid', () => {
             const tree = new BinarySearchTree(null);
