@@ -31,7 +31,7 @@ export class BinarySearchTree {
      * @param  {Node}       root    The root node of the tree.
      * @return {Boolean}            Indicator of whether the root is part of, and parent of a valid binary search tree.
      */
-    static isValid(root)
+    isValid()
     {
         /**
          * Just a local helper function to handle the actual recursion.
@@ -40,7 +40,7 @@ export class BinarySearchTree {
          * @param  {Number}     max     The maximum the node's value could be without violating rule #1.
          * @return {Boolean}            Boolean indicator as to whether the node is a part of, and parent of a valid binary search tree.
          */
-        function isValidRecurser (node, min, max) {
+        function recurse (node, min, max) {
             if (!node)
             {
                 return true;
@@ -48,21 +48,58 @@ export class BinarySearchTree {
 
             return node.data > min &&
                 node.data < max &&
-                isValidRecurser(node.left, min, node.data) &&
-                isValidRecurser(node.right, node.data, max);
+                recurse(node.left, min, node.data) &&
+                recurse(node.right, node.data, max);
         }
 
-        return isValidRecurser (root, -Infinity, Infinity);
+        return recurse (this.root, -Infinity, Infinity);
     }
 
+
+    /**
+     * Determines whether the tree is a valid binary search tree by checking the in-order sort of it.
+     * Note: Has O(N) time complexity(when checking the in-order array), and O(N) space complexity, in addition to the space/time complexity of the
+     * inOrderArray call.
+     * @param  {Node}  root The root node of the tree to check.
+     * @return {Boolean}      Boolean indicating whether the tree is a valid BST or not.
+     */
+    isValidSort ()
+    {
+        const root = this.root;
+
+        if (root === undefined)
+        {
+            // TODO: Write class specific error type.
+            throw new Error('First parameter cannot be undefined.');
+        }
+
+        // If there's only a leaf node, or no nodes at all, it meets the 2 requirements of being a valid BST.
+        if (root === null || !(root.left || root.right))
+        {
+            return true;
+        }
+
+        // Retrieve the in-order array.
+        const arr = this.inOrderArray();
+
+        // Perform uniqueness and order check.
+        for (let i = 1, length = arr.length; i < length; i++) {
+            if (arr[i - 1] >= arr[i])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
     /**
      * Traverses a binary tree in-order, and invokes a callback on each each node during traversal.
      * @param  {Node}   root   The root node of the tree to traverse.
      * @param  {Function} cb   The callback to invoke on each node.
      */
-    static inOrder (root, cb)
+    inOrder (cb)
     {
-        let node = root;
+        let node = this.root;
         const stack = [];
 
         while (node || stack.length)
@@ -82,13 +119,35 @@ export class BinarySearchTree {
     }
 
     /**
+     * Recursive and trivial version of in-order traversal of the tree.
+     * @param  {Function} cb Callback to invoke upon each node traversed.
+     */
+    inOrderRecursive (cb)
+    {
+        function recurse (node)
+        {
+            if (!node)
+            {
+                return;
+            }
+
+            recurse(node.left, cb);
+
+            cb(node);
+
+            recurse(node.right, cb);
+        }
+
+        recurse(this.root);
+    }
+    /**
      * Traverses a binary tree in pre-order, and invokes a callback on each each node during traversal.
      * @param  {Node}   root   The root node of the tree to traverse.
      * @param  {Function} cb   The callback to invoke on each node.
      */
-    static preOrder (root, cb)
+    preOrder (cb)
     {
-        let node = root;
+        let node = this.root;
         const stack = [];
 
         while (node || stack.length)
@@ -105,6 +164,29 @@ export class BinarySearchTree {
                 node = node.right;
             }
         }
+    }
+
+    /**
+     * Recursive version of pre-order traversal.
+     * @param  {Function} cb Callback invoked upon each node in the traversal process.
+     */
+    preOrderRecursive (cb)
+    {
+        function recurse (node)
+        {
+            if (!node)
+            {
+                return;
+            }
+
+            cb(node);
+
+            recurse(node.left, cb);
+
+            recurse(node.right, cb);
+        }
+
+        recurse(this.root);
     }
 
     /**
@@ -112,14 +194,15 @@ export class BinarySearchTree {
      * @param  {Node}   root   The root node of the tree to traverse.
      * @param  {Function} cb   The callback to invoke on each node.
      */
-    static postOrder (root, cb)
+    postOrder (cb)
     {
-        if (!root)
+        let node = this.root;
+
+        if (!node)
         {
             return;
         }
 
-        let node = root;
         const stack = [];
 
         do
@@ -158,50 +241,83 @@ export class BinarySearchTree {
     }
 
     /**
+     * Recursive and trivial version of post order traversal.
+     * @param  {Function} cb Callback to invoke upon each node traversed.
+     */
+    postOrderRecursive (cb)
+    {
+        /**
+         * Helper function that handles the actual post-order recursion.
+         * @param  {Node} node The node to invoke the callback upon.
+         */
+        function recurse (node)
+        {
+            if (!node)
+            {
+                return;
+            }
+
+            recurse(node.left, cb);
+
+            recurse(node.right, cb);
+
+            cb(node);
+        }
+
+        recurse(this.root);
+    }
+
+    /**
      * Returns an array of the in-order traversal.
      * @param  {Node} root The root of the tree to traverse.
      * @return {array}     The nodes in order of their visit, in in-order form.
      */
-    static inOrderArray (root)
+    inOrderArray ()
     {
         const arr = [];
-        BinarySearchTree.inOrder(root, (node) => arr.push(node.data));
+        this.inOrder((node) => arr.push(node.data));
         return arr;
     }
 
     /**
-     * Determines whether the tree is a valid binary search tree by checking the in-order sort of it.
-     * Note: Has O(N) time complexity(when checking the in-order array), and O(N) space complexity, in addition to the space/time complexity of the
-     * inOrderArray call.
-     * @param  {Node}  root The root node of the tree to check.
-     * @return {Boolean}      Boolean indicating whether the tree is a valid BST or not.
+     * Returns the node with the value closest to the provided value.
+     * @param  {Number} value
+     * @return {Node}   The node with value closest to the provided value.
      */
-    static isValidSort (root)
+    getClosestNode (value)
     {
-        if (root === undefined)
+        let closest = null;
+        let minDeltaSoFar = Infinity;
+        let node = this.root;
+
+        while (node)
         {
-            // TODO: Write class specific error type.
-            throw new Error('First parameter cannot be undefined.');
-        }
-
-        // If there's only a leaf node, or no nodes at all, it meets the 2 requirements of being a valid BST.
-        if (root === null || !(root.left || root.right))
-        {
-            return true;
-        }
-
-        // Retrieve the in-order array.
-        const arr = BinarySearchTree.inOrderArray(root);
-
-        // Perform uniqueness and order check.
-        for (let i = 1, length = arr.length; i < length; i++) {
-            if (arr[i - 1] >= arr[i])
+            const delta = Math.abs(node.data - value);
+            if (delta < minDeltaSoFar)
             {
-                return false;
+                minDeltaSoFar = delta;
+                closest = node;
+            }
+
+            if (delta === 0)
+            {
+                break;
+            }
+
+            if (node.data > value)
+            {
+                node = node.left;
+                continue;
+            }
+
+            if (node.data < value)
+            {
+                node = node.right;
+                continue;
             }
         }
 
-        return true;
+        return closest;
     }
 
     /**
@@ -209,7 +325,7 @@ export class BinarySearchTree {
      * @param  {Node} root The root node of the tree to convert.
      * @return {Node}      The head node of the doubly linked list.
      */
-    static toDoublyLinkedList (root)
+    toDoublyLinkedList (root)
     {
 
         /**
@@ -255,7 +371,7 @@ export class BinarySearchTree {
         }
 
         // Do the conversion. The node returned should be the rightmost/last in the list.
-        let headNode = convert(root);
+        let headNode = convert(this.root);
 
         // Iterate all the way to the beginning.
         while (headNode && headNode.left)
