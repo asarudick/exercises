@@ -92,7 +92,7 @@ export class BinarySearchTree {
 
         return true;
     }
-    
+
     /**
      * Traverses a binary tree in-order, and invokes a callback on each each node during traversal.
      * @param  {Node}   root   The root node of the tree to traverse.
@@ -322,6 +322,25 @@ export class BinarySearchTree {
         return closest;
     }
 
+    invert ()
+    {
+        function recurse (node)
+        {
+            if (!node)
+            {
+                return;
+            }
+            // Perform swap.
+            const tmp = node.left;
+            node.left = node.right;
+            node.right = tmp;
+
+            recurse(node.left);
+            recurse(node.right);
+        }
+
+        recurse(this.root);
+    }
     /**
      * Accepts a tree's root node, and converts the tree to a doubly linked list in-place.
      * @param  {Node} root The root node of the tree to convert.

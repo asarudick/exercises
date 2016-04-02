@@ -481,4 +481,45 @@ describe('BinarySearchTree', () => {
         });
     });
 
+    describe('invert', () => {
+        it('should not do anything if root is null', () => {
+            const tree = new BinarySearchTree(null);
+            tree.invert();
+            assert.equal(tree.root, null);
+        });
+        it('should result in [1]', () => {
+            const tree = new BinarySearchTree(new Node(1));
+            tree.invert();
+            assert.deepEqual(tree.root.data, 1);
+        });
+        it('should result in [2,1]', () => {
+            const tree = new BinarySearchTree(new Node(1));
+            tree.root.right = new Node(2);
+            tree.invert();
+            assert.deepEqual(tree.inOrderArray(), [ 2, 1 ]);
+        });
+        it('should result in [3,2,1]', () => {
+            const tree = new BinarySearchTree(new Node(2));
+            tree.root.left = new Node(1);
+            tree.root.right = new Node(3);
+            tree.invert();
+            assert.deepEqual(tree.inOrderArray(), [ 3, 2, 1 ]);
+        });
+        it('should result in [9,7,6,5,4,3,1]', () => {
+            const tree = new BinarySearchTree(new Node(5));
+
+            tree.root.left = new Node(3);
+            tree.root.right = new Node(7);
+
+            tree.root.left.left = new Node(1);
+            tree.root.left.right = new Node(4);
+
+            tree.root.right.left = new Node(6);
+            tree.root.right.right = new Node(9);
+
+            tree.invert();
+            assert.deepEqual(tree.inOrderArray(), [ 9, 7, 6, 5, 4, 3, 1 ]);
+        });
+    });
+
 });
