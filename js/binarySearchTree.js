@@ -322,6 +322,9 @@ export class BinarySearchTree {
         return closest;
     }
 
+    /**
+     * Inverts the binary search tree, where the left child becomes the right child for each node.
+     */
     invert ()
     {
         function recurse (node)
@@ -341,6 +344,7 @@ export class BinarySearchTree {
 
         recurse(this.root);
     }
+    
     /**
      * Accepts a tree's root node, and converts the tree to a doubly linked list in-place.
      * @param  {Node} root The root node of the tree to convert.
