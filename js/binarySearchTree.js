@@ -344,13 +344,214 @@ export class BinarySearchTree {
 
         recurse(this.root);
     }
-    
+
+
+    /**
+     * Determines whether there are two nodes that sum up to given value.
+     * @param  {Number} value The value which is potentially the sum of two nodes within the tree.
+     * @return {Boolean}      true if there are two nodes that sum up to given value, otherwise false.
+     */
+    containsTwoNodesEqualToSum (value)
+    {
+        if (!this.root)
+        {
+            return false;
+        }
+
+        if (!this.root.left && !this.root.right)
+        {
+            return false;
+        }
+
+        // There are cases where the root exceeds the value supplied, so let's move left and discard
+        // parts of the tree that exceed it.
+        let node = this.root;
+
+        // Zero is a valid value for a node, otherwise this comparison should be >=
+        while (node.data > value)
+        {
+            node = node.left;
+        }
+
+        const rightNodes = [];
+        const leftNodes = [];
+
+        function buildRightNodes (root) {
+            let node = root;
+
+            while (node && node.data <= value) {
+                rightNodes.push(node);
+                node = node.right;
+            }
+        }
+
+        function buildLeftNodes (root) {
+            let node = root;
+
+            while (node) {
+                if ( node.data <= value )
+                {
+                    leftNodes.push(node);
+                }
+                node = node.left;
+            }
+        }
+
+        function getPreviousRight () {
+            let node = null;
+
+            if (rightNodes.length)
+            {
+                node = rightNodes.pop();
+
+                let right = node.right;
+
+                while (right)
+                {
+                    rightNodes.push(right);
+                    right = right.right;
+                }
+            }
+
+            return node;
+        }
+
+        function getNextLeft () {
+            let node = null;
+
+            if (leftNodes.length)
+            {
+                node = leftNodes.pop();
+
+                let left = node.left;
+
+                while (left)
+                {
+                    leftNodes.push(left);
+                    left = left.left;
+                }
+            }
+
+            return node;
+        }
+
+        buildRightNodes(node);
+        buildLeftNodes(node);
+
+        let right = getPreviousRight();
+        let left = getNextLeft();
+
+        while (right && left && right !== left)
+        {
+            const sum = left.data + right.data;
+
+            if (sum === value)
+            {
+                return true;
+            }
+
+            if (sum < value)
+            {
+                left = getNextLeft();
+            }
+            else
+            {
+                right = getPreviousRight();
+            }
+        }
+
+        return false;
+
+    }
+
+    /**
+     * Finds the paths(from root to leaf), that sum up to given value.
+     * @param  {Number} value The sum to check against.
+     * @return {Array}        An array of subarrays, where each subarray
+     * contains a path consisting of nodes starting with the root node and ending with a leaf node.
+     */
+    pathsWithSum (value)
+    {
+        const paths = [];
+
+        function recurse (node, previousSum, previousPath)
+        {
+
+            if (!node)
+            {
+                return;
+            }
+
+            const path = Array.prototype.slice.call(previousPath).concat([ node ]);
+            const sum = node.data + previousSum;
+
+            if (!(node.left || node.right) && sum === value)
+            {
+                paths.push(path);
+            }
+
+            if (node.left)
+            {
+                recurse(node.left, sum, path);
+            }
+
+            if (node.right)
+            {
+                recurse(node.right, sum, path);
+            }
+        }
+
+        recurse (this.root, 0, [ this.root ]);
+
+        return paths;
+    }
+
+    /**
+     * Converts each level of the tree to a list, and returns a list of lists.
+     * @return {Array[Array]} An array of arrays, each containing a level of the tree.
+     */
+    levelsToLists () {
+
+        if (!this.root)
+        {
+            return [];
+        }
+
+        const queue = [];
+        const lists = [];
+        let rightMost = this.root;
+
+        queue.push(this.root);
+        lists.push([ this.root.data ]);
+
+        while (queue.length)
+        {
+            const node = queue.shift();
+
+            if (node.left) {
+                queue.push(node.left);
+            }
+
+            if (node.right) {
+                queue.push(node.right);
+            }
+
+            if (rightMost === node && queue.length)
+            {
+                rightMost = node.right;
+                lists.push(Array.prototype.slice.call(queue).map((a) => a.data));
+            }
+        }
+        
+        return lists;
+    }
+
     /**
      * Accepts a tree's root node, and converts the tree to a doubly linked list in-place.
      * @param  {Node} root The root node of the tree to convert.
      * @return {Node}      The head node of the doubly linked list.
      */
-    toDoublyLinkedList (root)
+    toDoublyLinkedList ()
     {
 
         /**

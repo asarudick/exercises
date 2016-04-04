@@ -522,4 +522,114 @@ describe('BinarySearchTree', () => {
         });
     });
 
+
+    describe('pathsWithSum', () => {
+        it('should return 0 paths', () => {
+            const tree = new BinarySearchTree(null);
+            const paths = tree.pathsWithSum(0);
+            assert.equal(paths.length, 0);
+        });
+        it('should return 1 path', () => {
+            const tree = new BinarySearchTree(new Node(1));
+            const paths = tree.pathsWithSum(1);
+            assert.equal(paths.length, 1);
+        });
+        it('should return 1 path', () => {
+            const tree = new BinarySearchTree(new Node(1));
+            tree.root.right = new Node(2);
+            const paths = tree.pathsWithSum(3);
+            assert.equal(paths.length, 1);
+        });
+        it('should return 1 path', () => {
+            const tree = new BinarySearchTree(new Node(2));
+            tree.root.left = new Node(1);
+            tree.root.right = new Node(3);
+            const paths = tree.pathsWithSum(5);
+            assert.deepEqual(paths.length, 1);
+        });
+        it('should return 2 paths', () => {
+            const tree = new BinarySearchTree(new Node(7));
+
+            tree.root.left = new Node(6);
+            tree.root.right = new Node(9);
+
+            tree.root.left.left = new Node(5);
+
+            tree.root.left.left.left = new Node(3);
+            tree.root.left.left.right = new Node(4);
+
+            tree.root.left.left.left.left = new Node(1);
+
+            const paths = tree.pathsWithSum(22);
+            assert.deepEqual(paths.length, 2);
+        });
+    });
+
+    describe('containsTwoNodesEqualToSum', () => {
+        it('should return false', () => {
+            const tree = new BinarySearchTree(null);
+            const result = tree.containsTwoNodesEqualToSum(0);
+            assert.equal(result, false);
+        });
+        it('should return false', () => {
+            const tree = new BinarySearchTree(new Node(1));
+            const result = tree.containsTwoNodesEqualToSum(1);
+            assert.equal(result, false);
+        });
+        it('should return true', () => {
+            const tree = new BinarySearchTree(new Node(2));
+            tree.root.left = new Node(1);
+            tree.root.right = new Node(3);
+            const result = tree.containsTwoNodesEqualToSum(5);
+            assert.equal(result, true);
+        });
+        it('should return true', () => {
+            const tree = new BinarySearchTree(new Node(10));
+
+            tree.root.left = new Node(7);
+            tree.root.right = new Node(15);
+
+            tree.root.left.left = new Node(5);
+            tree.root.left.right = new Node(8);
+
+            tree.root.left.left.left = new Node(1);
+            tree.root.left.left.right = new Node(6);
+
+            tree.root.right.left = new Node(14);
+            tree.root.right.right = new Node(21);
+
+            const result = tree.containsTwoNodesEqualToSum(9);
+            assert.equal(result, true);
+        });
+        it('should return true', () => {
+            const tree = new BinarySearchTree(new Node(10));
+
+            tree.root.left = new Node(7);
+            tree.root.right = new Node(15);
+
+            tree.root.left.left = new Node(5);
+            tree.root.left.right = new Node(8);
+
+            tree.root.left.left.left = new Node(1);
+            tree.root.left.left.right = new Node(6);
+
+            tree.root.right.left = new Node(14);
+            tree.root.right.right = new Node(21);
+
+            const result = tree.containsTwoNodesEqualToSum(35);
+            assert.equal(result, true);
+        });
+    });
+
+    describe('levelsToLists', () => {
+        it('should return [[2], [1,3]]', () => {
+            const tree = new BinarySearchTree(new Node(2));
+            tree.root.left = new Node(1);
+            tree.root.right = new Node(3);
+
+            const result = tree.levelsToLists();
+            assert.deepEqual(result, [ [ 2 ], [ 1, 3 ] ]);
+        });
+    });
+
 });
