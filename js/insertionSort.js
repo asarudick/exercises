@@ -5,7 +5,7 @@ export default function insertionSort (arr, cmp) {
     const comparator = cmp || defaultCmp;
     const length = result.length;
 
-    for (let i = 0; i < length; i++)
+    for (let i = 1; i < length; i++)
     {
         let j = i;
 
