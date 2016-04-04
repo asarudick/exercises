@@ -1,18 +1,4 @@
-function defaultCmp (a, b) {
-    const result = a - b;
-
-    if (result > 0)
-    {
-        return 1;
-    }
-
-    if (result < 0)
-    {
-        return -1;
-    }
-
-    return 0;
-};
+import defaultCmp from './lib/defaultComparator';
 
 /**
  * Copies the given array, and returns it in sorted fashion using selection sort.
