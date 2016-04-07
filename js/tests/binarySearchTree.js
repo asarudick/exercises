@@ -1,9 +1,12 @@
 import assert from 'assert';
 import {
     Node,
-    BinarySearchTree
+    BinarySearchTree, BinarySearchTreeError
 } from '../binarySearchTree';
 import _ from 'lodash';
+import chai from 'chai';
+
+var expect = chai.expect;
 
 
 describe('BinarySearchTree', () => {
@@ -629,6 +632,92 @@ describe('BinarySearchTree', () => {
 
             const result = tree.levelsToLists();
             assert.deepEqual(result, [ [ 2 ], [ 1, 3 ] ]);
+        });
+    });
+
+    describe('assignRightSiblings', () => {
+        it('should assign any siblings', () => {
+            const tree = new BinarySearchTree(new Node(2));
+
+            tree.assignRightSiblings();
+            assert.equal(typeof tree.root.sibling, 'undefined');
+        });
+        it('should assign 1 sibling', () => {
+            const tree = new BinarySearchTree(new Node(2));
+            tree.root.left = new Node(1);
+            tree.root.right = new Node(3);
+
+            tree.assignRightSiblings();
+            assert.equal(tree.root.left.sibling, tree.root.right);
+        });
+        it('should assign 4 siblings', () => {
+            const tree = new BinarySearchTree(new Node(20));
+            tree.root.left = new Node(10);
+            tree.root.right = new Node(30);
+
+            tree.root.left.left = new Node(5);
+            tree.root.left.right = new Node(15);
+
+            tree.root.right.left = new Node(25);
+            tree.root.right.right = new Node(35);
+
+            tree.assignRightSiblings();
+            assert.equal(tree.root.left.sibling, tree.root.right);
+            assert.equal(tree.root.left.left.sibling, tree.root.left.right);
+            assert.equal(tree.root.left.right.sibling, tree.root.right.left);
+            assert.equal(tree.root.right.left.sibling, tree.root.right.right);
+        });
+    });
+
+    describe('findSubPathsWithSum', () => {
+        it('should throw error when sum is not supplied.', () => {
+            const tree = new BinarySearchTree();
+            expect(() => {
+                tree.findSubPathsWithSum();
+            }).to.throw(BinarySearchTreeError);
+        });
+        it('should return [] for an empty tree', () => {
+            const tree = new BinarySearchTree();
+            const result = tree.findSubPathsWithSum(5);
+            assert.deepEqual(result, []);
+        });
+        it('should return [[1]] if the tree only has 1 node with data == 1', () => {
+            const tree = new BinarySearchTree(new Node(1));
+            const result = tree.findSubPathsWithSum(1);
+            assert.deepEqual(result, [ [ 1 ] ]);
+        });
+        it('should return [[1,2]] if the tree has the nodes 1 -> 2 (left), and sought sum is 3', () => {
+            const tree = new BinarySearchTree(new Node(1));
+            tree.root.left = new Node(2);
+            const result = tree.findSubPathsWithSum(3);
+            assert.deepEqual(result, [ [ 1, 2 ] ]);
+        });
+        it('should return [[2,3]] if the tree has the nodes (right) 1 <- 2 -> 3 (left), and sought sum is 5', () => {
+            const tree = new BinarySearchTree(new Node(2));
+            tree.root.left = new Node(1);
+            tree.root.right = new Node(3);
+            const result = tree.findSubPathsWithSum(5);
+            assert.deepEqual(result, [ [ 2, 3 ] ]);
+        });
+        it('should return [[20]] for sum 20, [[20,10],[30]] for 30, and [[20,30,35]] for 85', () => {
+            const tree = new BinarySearchTree(new Node(20));
+            tree.root.left = new Node(10);
+            tree.root.right = new Node(30);
+
+            tree.root.left.left = new Node(5);
+            tree.root.left.right = new Node(15);
+
+            tree.root.right.left = new Node(25);
+            tree.root.right.right = new Node(35);
+
+            const result = tree.findSubPathsWithSum(20);
+            assert.deepEqual(result, [ [ 20 ] ]);
+
+            const secondResult = tree.findSubPathsWithSum(30);
+            assert.deepEqual(secondResult, [ [ 20, 10 ], [ 30 ] ]);
+
+            const thirdResult = tree.findSubPathsWithSum(85);
+            assert.deepEqual(thirdResult, [ [ 20, 30, 35 ] ]);
         });
     });
 

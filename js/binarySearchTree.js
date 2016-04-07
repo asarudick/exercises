@@ -6,6 +6,14 @@ export class Node {
     }
 }
 
+export class BinarySearchTreeError {
+    constructor (message) {
+        this.name = 'BinarySearchTreeError';
+        this.message = message;
+        this.stack = (new Error()).stack;
+    }
+}
+
 export class BinarySearchTree {
 
     /**
@@ -542,7 +550,7 @@ export class BinarySearchTree {
                 lists.push(Array.prototype.slice.call(queue).map((a) => a.data));
             }
         }
-        
+
         return lists;
     }
 
@@ -606,5 +614,104 @@ export class BinarySearchTree {
         }
 
         return headNode;
+    }
+
+    /**
+     * Assigns the rightSibling property for each node within the tree(except) for the last node on each level, where a right sibling
+     * does not exist.
+     */
+    assignRightSiblings () {
+
+        if (!this.root)
+        {
+            return;
+        }
+
+        let rightMostNode = this.root;
+        const queue = [];
+        queue.push(this.root);
+        let prev;
+
+        while (queue.length) {
+
+            const node = queue.shift();
+
+            if (node.left)
+            {
+                queue.push(node.left);
+            }
+
+            if (node.right)
+            {
+                queue.push(node.right);
+            }
+
+            if (prev)
+            {
+                prev.sibling = node;
+            }
+
+            prev = node;
+
+
+            if (node === rightMostNode)
+            {
+                rightMostNode = node.right;
+                prev = null;
+            }
+
+        }
+
+    }
+
+    /**
+     * Finds a path(node A down to node B) within the tree.
+     * @param  {Number} The sum to test against.
+     * @return {array}  The list of nodes that sum to the supplied value.
+     */
+    findSubPathsWithSum (sum) {
+
+        if (!sum)
+        {
+            throw new BinarySearchTreeError('Sum to check for wasn\'t supplied');
+        }
+
+        if (!this.root)
+        {
+            return [];
+        }
+
+        const paths = [];
+
+        function recurse (node, sumSoFar, currentPath) {
+
+            let newSum = node.data + sumSoFar;
+
+            currentPath.push(node.data);
+
+            // If the new sum is greater than the expected sum, drop off the first in the array.
+            while (newSum > sum)
+            {
+                const popped = currentPath.shift();
+                newSum -= popped;
+            }
+
+            if (newSum === sum)
+            {
+                paths.push(currentPath);
+            }
+
+            if (node.left)
+            {
+                recurse(node.left, newSum, Array.prototype.slice.call(currentPath));
+            }
+
+            if (node.right) {
+                recurse(node.right, newSum, Array.prototype.slice.call(currentPath));
+            }
+        }
+
+        recurse(this.root, 0, []);
+        return paths;
     }
 }
