@@ -55,5 +55,13 @@ describe('RadixTree', () => {
 			const result = radixTree.find('rock');
 			assert.equal(result, 1);
 		});
+
+		it('should find the word "rocker"', () => {
+			radixTree.add('rock');
+			radixTree.add('rocker');
+			assert.notEqual(radixTree.root.rock, undefined);
+			const result = radixTree.find('rocker');
+			assert.equal(result, 1);
+		});
 	});
 });
