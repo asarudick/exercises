@@ -54,7 +54,7 @@ export default class RadixTree {
 			}
 
 			node = result.node;
-			fragment = fragment.substr(result.prefix.length - 1);
+			fragment = fragment.substr(result.prefix.length);
 		}
 
 		if (!Object.keys(node).length)

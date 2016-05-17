@@ -42,4 +42,18 @@ describe('RadixTree', () => {
 			assert.equal(radixTree.root.rocker, undefined);
 		});
 	});
+	describe('find', () => {
+		let radixTree;
+
+		beforeEach(() => {
+			radixTree = new RadixTree();
+		});
+
+		it('should find the word "rock"', () => {
+			radixTree.add('rock');
+			assert.notEqual(radixTree.root.rock, undefined);
+			const result = radixTree.find('rock');
+			assert.equal(result, 1);
+		});
+	});
 });
