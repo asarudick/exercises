@@ -65,6 +65,10 @@ export default class HeapedMedian {
         {
             this.minHeap.push(item);
         }
+		else
+		{
+			this.minHeap.push(item);
+		}
 
         rebalance(this.maxHeap, this.minHeap);
         this.effectiveMedian = calculateMedian(this.maxHeap, this.minHeap);
