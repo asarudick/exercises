@@ -1,5 +1,5 @@
-var List = require("../List.js");
-var assert = require('assert');
+import List from '../List';
+import assert from 'assert';
 
 describe('List', () => {
     let list;
