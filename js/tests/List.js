@@ -1,5 +1,5 @@
 import List from '../List';
-import assert from 'agssert';
+import assert from 'assert';
 
 describe('List', () => {
     let list;
