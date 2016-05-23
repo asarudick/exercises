@@ -306,5 +306,42 @@ describe('List', () => {
             assert.deepEqual(list.toArray(), [ ]);
         });
     });
+	describe('#at', () => {
+		it('at(0) should return 1', () => {
+			list.append(1);
+			const result = list.at(0);
+			assert.equal(result, 1);
+		});
+		it('at(1) should return 2', () => {
+			list.append(1, 2);
+			const result = list.at(1);
+			assert.equal(result, 2);
+		});
+		it('at(2) should return 3', () => {
+			list.append(1, 2, 3);
+			const result = list.at(2);
+			assert.equal(result, 3);
+		});
+		it('at(-1) should return 3', () => {
+			list.append(1, 2, 3);
+			const result = list.at(-1);
+			assert.equal(result, 3);
+		});
+		it('at(-2) should return 2', () => {
+			list.append(1, 2, 3);
+			const result = list.at(-2);
+			assert.equal(result, 2);
+		});
+		it('at(-3) should return 1', () => {
+			list.append(1, 2, 3);
+			const result = list.at(-3);
+			assert.equal(result, 1);
+		});
+		it('at(3) should return null', () => {
+			list.append(1, 2, 3);
+			const result = list.at(3);
+			assert.equal(result, null);
+		});
+	});
 
 });

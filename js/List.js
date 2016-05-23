@@ -36,6 +36,27 @@ export default class List {
         }
     }
 
+	at (index) {
+
+		index = index < 0 ? this.size + index : index;
+
+		if (index < -this.size + 1 || index > this.size - 1)
+		{
+			return null;
+		}
+		
+		let node = this.sentinel.next;
+		let count = 0;
+
+		while (node !== null && count < index)
+		{
+			node = node.next;
+			count++;
+		}
+
+		return node.data;
+	}
+
     prepend () {
 
         var values = Array.prototype.slice.call(arguments);
