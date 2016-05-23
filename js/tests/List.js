@@ -343,5 +343,42 @@ describe('List', () => {
 			assert.equal(result, null);
 		});
 	});
+	describe('#recurseAt', () => {
+		it('recurseAt(0) should return 1', () => {
+			list.append(1);
+			const result = list.recurseAt(0);
+			assert.equal(result, 1);
+		});
+		it('recurseAt(1) should return 2', () => {
+			list.append(1, 2);
+			const result = list.recurseAt(1);
+			assert.equal(result, 2);
+		});
+		it('recurseAt(2) should return 3', () => {
+			list.append(1, 2, 3);
+			const result = list.recurseAt(2);
+			assert.equal(result, 3);
+		});
+		it('recurseAt(-1) should return 3', () => {
+			list.append(1, 2, 3);
+			const result = list.recurseAt(-1);
+			assert.equal(result, 3);
+		});
+		it('recurseAt(-2) should return 2', () => {
+			list.append(1, 2, 3);
+			const result = list.recurseAt(-2);
+			assert.equal(result, 2);
+		});
+		it('recurseAt(-3) should return 1', () => {
+			list.append(1, 2, 3);
+			const result = list.recurseAt(-3);
+			assert.equal(result, 1);
+		});
+		it('recurseAt(3) should return null', () => {
+			list.append(1, 2, 3);
+			const result = list.recurseAt(3);
+			assert.equal(result, null);
+		});
+	});
 
 });

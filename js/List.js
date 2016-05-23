@@ -48,13 +48,32 @@ export default class List {
 		let node = this.sentinel.next;
 		let count = 0;
 
-		while (node !== null && count < index)
+		while (count < index)
 		{
 			node = node.next;
 			count++;
 		}
 
 		return node.data;
+	}
+
+	recurseAt (index) {
+
+		index = index < 0 ? this.size + index : index;
+
+		if (index < -this.size + 1 || index > this.size - 1)
+		{
+			return null;
+		}
+
+		function recurse (node, currentIndex) {
+			if (index === currentIndex) {
+				return node.data;
+			}
+			return recurse(node.next, ++currentIndex);
+		}
+
+		return recurse(this.sentinel.next, 0);
 	}
 
 	prepend () {
