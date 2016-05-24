@@ -8,30 +8,42 @@ export default class RadixTree {
 
 		function recurse (node, str) {
 
+			// TODO: Throw error if input is empty?
 			if (!str.length)
 			{
 				return;
 			}
 
-			let inNode = false;
+			let nodeHasMatch = false;
 
 			for (const prefix in node)
 			{
+				// Substring case.
 				if (prefix.substr(0, str.length) === str)
 				{
-					inNode = true;
+					nodeHasMatch = true;
+
+					// Split the prefix, and copy children to new node.
+					// e.g. `rocker` becomes `rock` -> `er`,
+					// and `rocker`'s children becomes `er`'s children,
+					// and `rock`'s only child becomes `er`;
 					const newNode = {};
 					newNode[prefix.substr(str.length)] = node[prefix];
 					node[str] = newNode;
+
+					// Delete old larger prefix.
 					delete node[prefix];
 				}
+				// Superstring case.
 				else if (str.substr(0, prefix.length) === prefix) {
-					inNode = true;
+					nodeHasMatch = true;
+
 					recurse(node[prefix], str.substr(prefix.length));
 				}
 			}
 
-			if (!inNode) {
+			// When the prefix is neither a superstring nor a substring of any node, just add it and exit.
+			if (!nodeHasMatch) {
 				node[str] = {};
 				return;
 			}
@@ -40,61 +52,61 @@ export default class RadixTree {
 		recurse(this.root, word);
 	}
 
+	// TODO: Clean.
 	find (str) {
-		let node = this.root;
-		let fragment = str;
 
-		while (fragment.length) {
-			const result = this._findPrefixNode(node, fragment);
-
-			// Unable to find prefix, which means our word isn't there.
-			if (!result)
-			{
-				return 0;
-			}
-
-			node = result.node;
-			fragment = fragment.substr(result.prefix.length);
-		}
-
-		if (!Object.keys(node).length)
-		{
-			return 1;
-		}
-
-		return this._getChildren(node) + 1;
-
-	}
-
-	_getChildren (root)
-	{
+		const result = [];
 		const queue = [];
-		let count = 0;
 
-		queue.push(root);
+		function enqueue (item, prefix) {
+			queue.push({
+						node: item.node[prefix],
+						suffix: item.suffix.substr(prefix.length),
+						prefix: item.prefix + item.suffix.substr(0, prefix.length)
+						});
+		}
+
+		// Push all matches form root.
+		for (const prefix in this.root) {
+			// If the prefix is a superstring...
+			if (prefix.substr(0, str.length) === str) {
+				result.push(prefix);
+				queue.push({
+							node: this.root[prefix],
+							suffix: str.substr(prefix.length),
+							prefix: prefix
+							});
+			}
+			// If the prefix is a substring of str...
+			else if (str.substr(0, prefix.length) === prefix) {
+				queue.push({
+							node: this.root[prefix],
+							suffix: str.substr(prefix.length),
+							prefix: prefix
+							});
+			}
+		}
 
 		while (queue.length)
 		{
-			const node = queue.unshift();
+			const item = queue.shift();
 
-			for (const prefix in node)
-			{
-				queue.push(node[prefix]);
-				count++;
+			for (const prefix in item.node) {
+
+				// If the prefix is a superstring...
+				if (prefix.substr(0, item.suffix.length) === item.suffix) {
+					result.push(item.prefix + prefix);
+					enqueue(item, prefix);
+				}
+				// If the prefix is a substring of str...
+				else if (item.suffix.substr(0, prefix.length) === prefix) {
+					enqueue(item, prefix);
+				}
+
 			}
 		}
 
-		return count;
-	}
+		return result;
 
-	_findPrefixNode (node, needle)
-	{
-		for (const prefix in node)
-		{
-			if (needle.substr(0, prefix.length) === prefix)
-			{
-				return { node: node[prefix], prefix: prefix };
-			}
-		}
 	}
 }

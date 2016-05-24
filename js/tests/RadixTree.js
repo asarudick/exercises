@@ -53,15 +53,33 @@ describe('RadixTree', () => {
 			radixTree.add('rock');
 			assert.notEqual(radixTree.root.rock, undefined);
 			const result = radixTree.find('rock');
-			assert.equal(result, 1);
+			assert.equal(result.length, 1);
 		});
 
 		it('should find the word "rocker"', () => {
 			radixTree.add('rock');
 			radixTree.add('rocker');
 			assert.notEqual(radixTree.root.rock, undefined);
-			const result = radixTree.find('rocker');
-			assert.equal(result, 1);
+			const result = radixTree.find('rock');
+			assert.equal(result.length, 2);
+		});
+
+		it('should find the word "hack", and "hackerrank"', () => {
+			radixTree.add('hack');
+			radixTree.add('hackerrank');
+			let result = radixTree.find('hac');
+			assert.equal(result.length, 2);
+			result = radixTree.find('hak');
+			assert.equal(result.length, 0);
+		});
+
+		it('should find the word "hack", "hacker", "hatch, and "hatcher"', () => {
+			radixTree.add('hack');
+			radixTree.add('hacker');
+			radixTree.add('hatch');
+			radixTree.add('hatcher');
+			const result = radixTree.find('ha');
+			assert.equal(result.length, 4);
 		});
 	});
 });
