@@ -714,4 +714,48 @@ export class BinarySearchTree {
         recurse(this.root, 0, []);
         return paths;
     }
+
+    inOrderSuccessor (node) {
+
+		if (!node)
+		{
+			return null;
+		}
+
+		// If there is a right child, we know its the minimum value of that subtree.
+		if (node.right)
+		{
+			return this.minimumValue(node.right);
+		}
+
+        let current = this.root;
+        let successor = this.root;
+
+        while (current) {
+
+			if (current.data > node.data) {
+
+				successor = current;
+				current = current.left;
+			}
+			else if (current.data < node.data) {
+				current = current.right;
+			}
+			else {
+				break;
+			}
+        }
+
+		return successor;
+    }
+
+	minimumValue (node) {
+		let current = node;
+
+		while (current.left) {
+			current = current.left;
+		}
+
+		return current;
+	}
 }
