@@ -715,6 +715,38 @@ export class BinarySearchTree {
         return paths;
     }
 
+	inOrderPredecessor (node) {
+		if (!node)
+		{
+			return null;
+		}
+
+		if (node.left)
+		{
+			return this.maximumValue(node.left);
+		}
+
+		let current = this.root;
+		let predecessor = this.root;
+
+		while (current) {
+
+			if (current.data < node.data) {
+				predecessor = current;
+				current = current.right;
+			}
+			else if (current.data > node.data) {
+				current = current.left;
+			}
+			else {
+				break;
+			}
+
+		}
+
+		return predecessor;
+	}
+
     inOrderSuccessor (node) {
 
 		if (!node)
@@ -734,7 +766,6 @@ export class BinarySearchTree {
         while (current) {
 
 			if (current.data > node.data) {
-
 				successor = current;
 				current = current.left;
 			}
@@ -744,10 +775,21 @@ export class BinarySearchTree {
 			else {
 				break;
 			}
+
         }
 
 		return successor;
     }
+
+	maximumValue (node) {
+		let current = node;
+
+		while (current.right) {
+			current = current.right;
+		}
+
+		return current;
+	}
 
 	minimumValue (node) {
 		let current = node;
