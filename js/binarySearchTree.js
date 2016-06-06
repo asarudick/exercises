@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export class Node {
     constructor (data, left, right) {
         this.right = right;
@@ -852,5 +854,47 @@ export class BinarySearchTree {
 		return recurse(this.root).commonAncestor;
 	}
 
+	sequences () {
+		function recurse (node) {
 
+			if (!node)
+			{
+				return [];
+			}
+
+			const left = recurse(node.left);
+			const right = recurse(node.right);
+
+			if (!left.length && !right.length)
+			{
+				return [ [ node.data ] ];
+			}
+
+			let combinations = [];
+
+			if (!left.length) {
+				combinations = right;
+			}
+
+			if (!right.length) {
+				combinations = left;
+			}
+			
+			for (const leftSequence of left) {
+				for (const rightSequence of right) {
+					combinations.push(leftSequence.concat(rightSequence));
+				}
+			}
+
+			for (const rightSequence of right) {
+				for (const leftSequence of left) {
+					combinations.push(rightSequence.concat(leftSequence));
+				}
+			}
+
+			return _.map(combinations, (combination) => [ node.data ].concat(combination));
+		}
+
+		return recurse(this.root);
+	}
 }

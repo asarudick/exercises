@@ -853,4 +853,56 @@ describe('BinarySearchTree', () => {
 		});
 	});
 
+	describe('sequences', () => {
+		it('should return [1] for single node BST', () => {
+			const tree = new BinarySearchTree(new Node(1));
+			const result = tree.sequences();
+			assert.deepEqual(result, [ [ 1 ] ]);
+		});
+		it('should return [2, 1] for double node BST', () => {
+			const tree = new BinarySearchTree(new Node(2));
+			tree.root.left = new Node(1);
+			const result = tree.sequences();
+			assert.deepEqual(result, [ [ 2, 1 ] ]);
+		});
+		it('should return [2, 1, 3], [2, 3, 1] for triple node BST', () => {
+			const tree = new BinarySearchTree(new Node(2));
+			tree.root.left = new Node(1);
+			tree.root.right = new Node(3);
+			const result = tree.sequences();
+			assert.deepEqual(result, [ [ 2, 1, 3 ], [ 2, 3, 1 ] ]);
+		});
+		it(`should return
+			[ 5, 3, 1, 2, 7, 6, 9 ],
+			[ 5, 3, 1, 2, 7, 9, 6 ],
+			[ 5, 3, 2, 1, 7, 6, 9 ],
+			[ 5, 3, 2, 1, 7, 9, 6 ],
+			[ 5, 7, 6, 9, 3, 1, 2 ],
+			[ 5, 7, 6, 9, 3, 2, 1 ],
+			[ 5, 7, 9, 6, 3, 1, 2 ],
+			[ 5, 7, 9, 6, 3, 2, 1 ]`, () => {
+			const tree = new BinarySearchTree(new Node(5));
+			tree.root.left = new Node(3);
+			tree.root.right = new Node(7);
+
+			tree.root.left.left = new Node(1);
+			tree.root.left.right = new Node(2);
+
+			tree.root.right.left = new Node(6);
+			tree.root.right.right = new Node(9);
+
+			const result = tree.sequences();
+			assert.deepEqual(result, [
+				[ 5, 3, 1, 2, 7, 6, 9 ],
+				[ 5, 3, 1, 2, 7, 9, 6 ],
+				[ 5, 3, 2, 1, 7, 6, 9 ],
+				[ 5, 3, 2, 1, 7, 9, 6 ],
+				[ 5, 7, 6, 9, 3, 1, 2 ],
+				[ 5, 7, 6, 9, 3, 2, 1 ],
+				[ 5, 7, 9, 6, 3, 1, 2 ],
+				[ 5, 7, 9, 6, 3, 2, 1 ]
+			]);
+		});
+	});
+
 });
