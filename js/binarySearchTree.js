@@ -800,4 +800,57 @@ export class BinarySearchTree {
 
 		return current;
 	}
+
+	findCommonAncestor (a, b) {
+		class Result {
+			constructor (commonAncestor, hasFirst, hasSecond) {
+				this.commonAncestor = commonAncestor;
+				this.hasFirst = hasFirst;
+				this.hasSecond = hasSecond;
+			}
+		}
+
+		function recurse (node) {
+			if (!node)
+			{
+				return new Result(null, false, false);
+			}
+
+			const left = recurse(node.left);
+			const right = recurse(node.right);
+
+			if (left.commonAncestor)
+			{
+				return left;
+			}
+
+			if (right.commonAncestor)
+			{
+				return right;
+			}
+
+			const hasFirst = left.hasFirst || right.hasFirst;
+			const hasSecond = left.hasSecond || right.hasSecond;
+
+			if (hasFirst && hasSecond) {
+				return new Result(node, hasFirst, hasSecond);
+			}
+
+			if (node.data === a)
+			{
+				return new Result(null, true, hasSecond);
+			}
+
+			if (node.data === b)
+			{
+				return new Result(null, hasFirst, true);
+			}
+
+			return new Result(null, hasFirst, hasSecond);
+		}
+
+		return recurse(this.root).commonAncestor;
+	}
+
+
 }
