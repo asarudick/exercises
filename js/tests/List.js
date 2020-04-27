@@ -380,5 +380,11 @@ describe('List', () => {
 			assert.equal(result, null);
 		});
 	});
-
+  describe('#dedupe', () => {
+    it('dedupe should remove duplicate 1', () => {
+      list.append(1, 1);
+      list.dedupe();
+      assert.equal(list.size, 1);
+    });
+  });
 });

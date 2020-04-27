@@ -388,4 +388,48 @@ export default class List {
 		this.sentinel.next = oldTail;
 		this.tail = newTail;
 	}
+
+	each (cb) {
+		// Get first node.
+		let current = this.sentinel.next;
+
+		// Get previous.
+		let previous = this.sentinel;
+
+		while (current) {
+			cb(current, previous);
+
+			if (previous.next !== current) {
+				current = previous.next;
+				continue;
+			}
+
+			current = current.next;
+			previous = previous.next;
+		}
+	}
+
+	dedupe () {
+
+		if (!this.sentinel.next) {
+			return;
+		}
+
+		// Store all the unique values.
+		const uniques = {};
+
+		this.each((current, previous) => {
+
+			// Not found.
+			if (!uniques[current.data]) {
+				uniques[current.data] = 1;
+				return;
+			}
+
+			// Found.
+			previous.next = current.next;
+			this.size--;
+		});
+
+	}
 }
