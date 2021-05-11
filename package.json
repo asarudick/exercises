@@ -34,6 +34,6 @@
     "babel-plugin-syntax-async-functions": "^6.5.0",
     "babel-plugin-transform-regenerator": "^6.6.5",
     "babel-polyfill": "^6.7.2",
-    "lodash": "^4.6.1"
+    "lodash": "^4.17.21"
   }
 }
