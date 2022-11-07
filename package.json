@@ -28,7 +28,7 @@
     "eslint": "latest",
     "gulp": "latest",
     "gulp-mocha": "latest",
-    "mocha": "^2.4.5"
+    "mocha": "^10.1.0"
   },
   "dependencies": {
     "babel-plugin-syntax-async-functions": "^6.5.0",
