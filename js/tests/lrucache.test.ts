@@ -1,0 +1,171 @@
+import lrucache from '../lrucache';
+
+describe('lrucache', () => {
+	test('should function1', () => {
+		const cache = new lrucache(3);
+		cache.put(1, 1);
+		cache.put(2, 2);
+		cache.put(3, 3);
+		const result = Object.keys(cache.cache);
+		expect(result.length).toEqual(3);
+	});
+	test('should function16', () => {
+		const cache = new lrucache(3);
+		cache.put(2, 1);
+		cache.put(2, 2);
+		let result = cache.get(2);
+		expect(result).toEqual(2);
+	});
+	test('should function13', () => {
+		const cache = new lrucache(2);
+		cache.put(1, 0);
+		cache.put(2, 2);
+		let result = cache.get(1);
+		expect(result).toEqual(0);
+		cache.put(3, 3);
+		result = cache.get(2);
+		expect(result).toEqual(-1);
+		cache.put(4, 4);
+		result = cache.get(1);
+		expect(result).toEqual(-1);
+		result = cache.get(3);
+		expect(result).toEqual(3);
+		result = cache.get(4);
+		expect(result).toEqual(4);
+	});
+	test('should function3', () => {
+		const cache = new lrucache(2);
+		cache.put(1, 1);
+		cache.put(2, 2);
+		cache.put(3, 3);
+		const result = Object.keys(cache.cache);
+		expect(result.length).toEqual(2);
+	});
+	test('should function4', () => {
+		const cache = new lrucache(2);
+		cache.put(1, 1);
+		cache.put(2, 2);
+		cache.put(3, 3);
+		cache.put(4, 4);
+		cache.put(5, 5);
+		cache.put(6, 6);
+		cache.put(7, 7);
+		const result = Object.keys(cache.cache);
+		expect(result.length).toEqual(2);
+	});
+	test('should function5', () => {
+		const cache = new lrucache(2);
+		cache.put(1, 1);
+		cache.put(2, 2);
+		cache.put(3, 3);
+		cache.put(4, 4);
+		cache.put(5, 5);
+		cache.put(6, 6);
+		cache.put(7, 7);
+		const value = cache.get(6);
+		const result = Object.keys(cache.cache);
+		expect(result.length).toEqual(2);
+		expect(value).toEqual(6);
+	});
+	test('should function6', () => {
+		const cache = new lrucache(2);
+		cache.put(1, 1);
+		cache.put(2, 2);
+		cache.put(3, 3);
+		cache.put(4, 4);
+		cache.put(5, 5);
+		cache.put(6, 6);
+		cache.put(7, 7);
+		const value = cache.get(5);
+		const result = Object.keys(cache.cache);
+		expect(result.length).toEqual(2);
+		expect(value).toEqual(-1);
+	});
+	test('should function7', () => {
+		const cache = new lrucache(2);
+		cache.put(1, 1);
+		cache.put(2, 2);
+		cache.put(3, 3);
+		cache.put(4, 4);
+		cache.put(5, 5);
+		cache.put(6, 6);
+		cache.get(5);
+		cache.put(7, 7);
+		const value = cache.get(5);
+		const result = Object.keys(cache.cache);
+		expect(result.length).toEqual(2);
+		expect(value).toEqual(5);
+	});
+	test('should function8', () => {
+		const cache = new lrucache(2);
+		cache.put(1, 1);
+		cache.put(2, 2);
+		cache.put(3, 3);
+		cache.put(4, 4);
+		cache.put(5, 5);
+		cache.put(6, 6);
+		cache.get(5);
+		const history = cache.history.toArray();
+		expect(history).toEqual([5,6]);
+	});
+	test('should function9', () => {
+		const cache = new lrucache(2);
+		cache.put(1, 1);
+		cache.put(2, 2);
+		cache.put(3, 3);
+		cache.put(4, 4);
+		cache.put(5, 5);
+		cache.put(6, 6);
+		cache.get(5);
+		cache.get(6);
+		const history = cache.history.toArray();
+		expect(history).toEqual([6,5]);
+	});
+	test('should function11', () => {
+		const cache = new lrucache(2);
+		cache.put(1, 1);
+		cache.put(2, 2);
+		cache.put(3, 3);
+		cache.put(4, 4);
+		cache.put(5, 5);
+		cache.put(6, 6);
+		cache.get(6);
+		cache.get(5);
+		const history = cache.history.toArray();
+		expect(history.length).toEqual(2);
+		expect(history).toEqual([5,6]);
+	});
+	test('should function10', () => {
+		const cache = new lrucache(2);
+		cache.put(1, 1);
+		cache.put(2, 2);
+		cache.put(3, 3);
+		cache.put(4, 4);
+		cache.put(5, 5);
+		cache.put(6, 6);
+		cache.get(6);
+		cache.get(5);
+		cache.put(7, 7);
+		const history = cache.history.toArray();
+		expect(history).toEqual([7,5]);
+	});
+	test('should function', () => {
+		const cache = new lrucache(2);
+		cache.put(1, 1);
+		cache.put(2, 2);
+		cache.get(1);
+		cache.put(3, 3);
+		let result = cache.get(2);
+		expect(result).toEqual(-1);
+	});
+	test('should function', () => {
+		const cache = new lrucache(2);
+		cache.put(2, 1);
+		cache.put(1, 1);
+		cache.put(2, 3);
+		cache.put(4, 1);
+		cache.get(1);
+		let result = cache.get(2);
+		expect(result).toEqual(3);
+	});
+});
