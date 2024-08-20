@@ -6,18 +6,33 @@ export default function isRegexMatch(s: string, p: string): boolean {
     while (currentPatternChar < pattern.length && currentChar < str.length) {
         let char = str[currentChar];
         const patternChar = pattern[currentPatternChar];
-        if (char === patternChar || patternChar === '.') {
+        
+        if (pattern[currentPatternChar + 1] === '*') {
+            currentPatternChar++;
+            continue;
+        }
+
+        if (patternChar === '.') {
+            currentChar++;
+            currentPatternChar++;
+            continue;
+        }
+
+        if (patternChar === char) {
             currentChar++;
             currentPatternChar++;
             continue;
         }
 
         if (patternChar === '*') {
-            if (pattern[currentPatternChar - 1] === '.') {
-                currentChar = str.length - 1;
-                return true;
+            const prevPatternChar = pattern[currentPatternChar - 1];
+            const nextPatternChar = pattern[currentPatternChar + 1];
+            if (prevPatternChar === '.') {
+                currentChar = str.length;
+                currentPatternChar++;
+                return currentChar === str.length && currentPatternChar === pattern.length;
             }
-            while (char === pattern[currentPatternChar - 1]) {
+            while (char === prevPatternChar && char !== nextPatternChar) {
                 char = str[++currentChar];
             }
             currentPatternChar++;
@@ -26,5 +41,5 @@ export default function isRegexMatch(s: string, p: string): boolean {
 
         return false;
     }
-    return true;
+    return currentChar === str.length && currentPatternChar === pattern.length;
 }

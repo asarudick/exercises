@@ -41,4 +41,16 @@ describe('isRegexMatch', () => {
 		const result = isRegexMatch('ba','a.*');
         expect(result).toEqual(false);
 	});
+	test('a', () => {
+		const result = isRegexMatch('aa','a');
+        expect(result).toEqual(false);
+	});
+	test('.*c', () => {
+		const result = isRegexMatch('ab','.*c');
+        expect(result).toEqual(false);
+	});
+	test('a*a', () => {
+		const result = isRegexMatch('aaa','a*a');
+        expect(result).toEqual(true);
+	});
 });
