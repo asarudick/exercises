@@ -11,7 +11,7 @@ EXERCISE_NAME=$1
 
 # Create the TypeScript file with boilerplate code
 cat <<EOL > "${EXERCISE_NAME}.ts"
-export function ${EXERCISE_NAME}(): void {
+export default function ${EXERCISE_NAME}(): void {
   // TODO: Implement the function
 }
 EOL
@@ -21,7 +21,7 @@ mkdir -p tests
 
 # Create the test file with boilerplate code
 cat <<EOL > "tests/${EXERCISE_NAME}.test.ts"
-import { ${EXERCISE_NAME} } from '../${EXERCISE_NAME}';
+import ${EXERCISE_NAME} from '../${EXERCISE_NAME}';
 
 describe('${EXERCISE_NAME}', () => {
   it('should work correctly', () => {
