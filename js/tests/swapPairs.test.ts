@@ -3,11 +3,9 @@ import swapPairs from '../swapPairs';
 
 describe('swapPairs', () => {
   it('[] => null', () => {
-    // TODO: Add test cases
     expect(swapPairs(null)).toBeNull();
   });
   it('[1] => [1]', () => {
-    // TODO: Add test cases
     expect(listToArray(swapPairs(arrayToList([1])))).toEqual([1]);
   });
   it('[1,2] => [2,1]', () => {
