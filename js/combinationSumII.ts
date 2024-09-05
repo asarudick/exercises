@@ -58,7 +58,7 @@ export default function combinationSum2(
         continue;
       }
       current.push(candidate);
-      dfs(j, rem - candidate);
+      dfs(j + 1, rem - candidate);
       current.pop();
     }
   };
