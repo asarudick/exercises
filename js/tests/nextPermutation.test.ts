@@ -1,4 +1,4 @@
-import nextPermutation from "../nextPermutation";
+import { nextPermutation } from "../nextPermutation";
 
 describe("nextPermutation", () => {
   const testCases = [
