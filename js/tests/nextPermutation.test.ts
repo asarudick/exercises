@@ -1,14 +1,6 @@
-import nextPermutation from '../nextPermutation';
+import nextPermutation from "../nextPermutation";
 
-describe('nextPermutation', () => {
-  it('should work correctly', () => {
-    // TODO: Add test cases
-    expect(nextPermutation()).toBeUndefined();
-  });
-});
-import { nextPermutation } from '../nextPermutation';
-
-describe('nextPermutation', () => {
+describe("nextPermutation", () => {
   const testCases = [
     { input: [1, 2, 3], expected: [1, 3, 2] },
     { input: [3, 2, 1], expected: [1, 2, 3] },
@@ -17,12 +9,15 @@ describe('nextPermutation', () => {
     { input: [1, 3, 2], expected: [2, 1, 3] },
   ];
 
-  test.each(testCases)('nextPermutation($input) should return $expected', ({ input, expected }) => {
-    const result = nextPermutation(input);
-    expect(result).toEqual(expected);
-  });
+  test.each(testCases)(
+    "nextPermutation($input) should return $expected",
+    ({ input, expected }) => {
+      nextPermutation(input);
+      expect(input).toEqual(expected);
+    }
+  );
 
-  test('nextPermutation should modify the input array in-place', () => {
+  test("nextPermutation should modify the input array in-place", () => {
     const input = [1, 2, 3];
     nextPermutation(input);
     expect(input).toEqual([1, 3, 2]);
