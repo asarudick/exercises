@@ -35,7 +35,7 @@
     "gulp-mocha": "latest",
     "jest": "^29.7.0",
     "mocha": "^10.7.3",
-    "ts-jest": "^29.2.4",
+    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "tsc": "^2.0.4",
