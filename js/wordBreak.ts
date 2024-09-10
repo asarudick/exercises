@@ -1,6 +1,4 @@
 export function wordBreak(s: string, wordDict: string[]): boolean {
-  let start = 0;
-  let end = 1;
   let words = new Set<string>(wordDict);
   let dp = Array(s.length + 1).fill(false);
   dp[0] = true;
