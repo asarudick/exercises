@@ -17,16 +17,20 @@ export function create<T>(
     val !== null ? new TreeNode<T>(val) : null
   );
   const root = nodes[0];
+  const queue: (TreeNode<T> | null)[] = [root as TreeNode<T>];
 
-  while (nodes.length) {
-    let node = nodes.shift();
-    if (!node) {
-      continue;
+  for (let i = 1; i < nodes.length; i++) {
+    const parent = queue.shift();
+    if (parent) {
+      if (nodes[i] !== null) {
+        parent.left = nodes[i]!;
+        queue.push(parent.left);
+      }
+      if (++i < nodes.length && nodes[i] !== null) {
+        parent.right = nodes[i]!;
+        queue.push(parent.right);
+      }
     }
-    node.left = nodes.shift() as TreeNode<T> | null;
-    node.right = nodes.shift() as TreeNode<T> | null;
-    nodes.unshift(node.left);
-    nodes.unshift(node.right);
   }
 
   return root;
