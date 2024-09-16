@@ -35,3 +35,64 @@ export function create<T>(
 
   return root;
 }
+export function inorderTraversal(root: TreeNode<number>): TreeNode<number>[] {
+  if (!root) {
+    return [];
+  }
+  let result: TreeNode<number>[] = [];
+  const stack: TreeNode<number>[] = [];
+
+  let current: TreeNode<number> | null | undefined = root;
+
+  while (stack.length || current) {
+    while (current) {
+      stack.push(current);
+      current = current.left;
+    }
+
+    current = stack.pop();
+    result.push(current!);
+
+    current = current?.right;
+  }
+
+  return result;
+}
+
+export function preorderTraversal<T>(root: TreeNode<T> | null): T[] {
+  const result: T[] = [];
+  const stack: TreeNode<T>[] = [];
+
+  if (root) {
+    stack.push(root);
+  }
+
+  while (stack.length) {
+    const node = stack.pop();
+    result.push(node?.val!);
+
+    node?.right && stack.push(node.right);
+    node?.left && stack.push(node.left);
+  }
+
+  return result;
+}
+
+export function postorderTraversal<T>(root: TreeNode<T> | null): T[] {
+  const result: T[] = [];
+  const stack: TreeNode<T>[] = [];
+
+  if (root) {
+    stack.push(root);
+  }
+
+  while (stack.length) {
+    const node = stack.pop();
+    result.push(node?.val!);
+
+    node?.left && stack.push(node.left);
+    node?.right && stack.push(node.right);
+  }
+
+  return result.reverse();
+}
