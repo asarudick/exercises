@@ -84,11 +84,9 @@ export function postorderTraversal<T>(root: TreeNode<T> | null): T[] {
   const result: T[] = [];
   const stack: TreeNode<T>[] = [];
 
-  if (!root) {
-    return result;
+  if (root) {
+    stack.push(root);
   }
-
-  stack.push(root);
 
   while (stack.length) {
     const node = stack.pop();
